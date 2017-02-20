@@ -28,7 +28,8 @@
     "toastr": "*",
     "lodash": "*",
     "ol3-cesium":"*",
-    "xbbcode-parser": "*"
+    "xbbcode-parser": "*",
+    "jqcloud2": "*"
   },
   "repository": {
     "type": "git",
