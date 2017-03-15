@@ -24,7 +24,7 @@ function jsqueue_main() {
 
         self.config = {
             "auto_start": "true",
-            "maxlife": 50000,
+            "maxlife": 180000,
             "timeout": 10
         };
         self.stack ={};
