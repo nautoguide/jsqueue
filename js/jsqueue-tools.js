@@ -77,6 +77,10 @@
             $(data.element).val(data.value);
             jsqueue.finished(data.PID);
         },
+        TOOLS_UPDATE_VALUE_EVAL: function (data) {
+            $(data.element).val(eval(data.value));
+            jsqueue.finished(data.PID);
+        },
 
         TOOLS_EXECUTE_TEMPLATE: function (data) {
             $('#command-window').html($(data.template).render(data));

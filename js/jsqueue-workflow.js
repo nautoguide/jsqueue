@@ -219,13 +219,15 @@
                 return;
             }
             jsqueue.push_name('WF-TEMPLATE',data.data);
-            if(data.target!==undefined)
+            if(data.target!==undefined) {
                 $(data.target).append(core.data.htmlinject($(data.template).html()));
-            else
+                $(this).remove();
+            } else {
                 $(this).append(core.data.htmlinject($(data.template).html()));
+                $(this).contents().unwrap();
+
+            }
             forceRedraw(this);
-            //$(this).contents().unwrap();
-            $(this).remove();
 
 
         };

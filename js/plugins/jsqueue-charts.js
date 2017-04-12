@@ -117,7 +117,11 @@ function jsqueue_charts() {
         var dataset=[];
         var max=0;
         for(var i=0;i<data.chart.data.length;i++) {
-            dataset.push({"col":data.chart.data[i].rows,"label":data.chart.data[i].title});
+            if(isNaN(parseFloat(data.chart.data[i].rows)))
+                data.chart.data[i].rows=0;
+            else
+                data.chart.data[i].rows=parseFloat(data.chart.data[i].rows);
+            dataset.push({"col":parseFloat(data.chart.data[i].rows),"label":data.chart.data[i].title});
             if(data.chart.data[i].rows>max)
                 max=data.chart.data[i].rows;
         }
