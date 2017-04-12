@@ -31,33 +31,37 @@
          * @constructor
          */
         TIME_DISPLAY: function(data) {
-            var self=this;
-            var d = new Date()
-            $(self.options.element).html( d.toUTCString());
-            jsqueue.add(
-                    {
-                        "component":"TIME",
-                        "command":"TIME_DISPLAY",
-                        'data': {
-                            "timer": 30000
-                        }
-                    }
+            var d = new Date();
 
-                );
+            $(this.options.element).html(d.toLocaleString('en-GB', {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+                timeZoneName: "short"
+            }));
+
+            jsqueue.add({
+                "component":"TIME",
+                "command":"TIME_DISPLAY",
+                'data': {
+                    "timer": 30000
+                }
+            });
+
             jsqueue.finished(data.PID);
         },
 
         TIME_INIT: function(data) {
-            jsqueue.add(
-                {
-                    "component":"TIME",
-                    "command":"TIME_DISPLAY"
-                }
-
-            );
+            jsqueue.add({
+                "component":"TIME",
+                "command":"TIME_DISPLAY"
+            });
         }
     };
-
 
     /* PLUGIN DEFINITION
      * =========================== */
