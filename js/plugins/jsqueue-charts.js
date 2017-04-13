@@ -168,7 +168,7 @@ function jsqueue_charts() {
             .append("g")
             .attr("transform", "translate(" + data.chart.options.margin.left + "," + data.chart.options.margin.top + ")");
 
-        var intCount = 0, floatCount = 0, type = 'int';
+        var floatCount = 0;
 
         var previousNumbers = [];
 
@@ -177,31 +177,20 @@ function jsqueue_charts() {
                 previousNumbers.push(d.col);
             }
 
-            if (isInteger(d.col)) {
-                intCount++;
-            }
-            else if(isFloat(d.col)) {
+            if (isFloat(d.col)) {
                 floatCount++;
             }
         });
-
-        if (floatCount > 0) {
-            type = 'float';
-        }
 
         function isFloat(n) {
             return n === +n && n !== (n|0);
         }
 
-        function isInteger(n) {
-            return n === +n && n === (n|0);
-        }
-
         function yAxisCall() {
-            if (type === 'float') {
+            if (floatCount > 0) {
                 return yAxis;
             }
-            else if (type === 'int') {
+            else {
                 return yAxis.ticks(previousNumbers.length, "d");
             }
         }
