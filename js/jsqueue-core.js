@@ -172,7 +172,7 @@ core.data = {
             return;
         if (val instanceof Object) {
             $.each(val, function (mkey, mval) {
-                self.datamunge_recursive(mkey, mval, data, to[key], depth++)
+                self.datamunge_recursive(mkey, mval, data, to[key], depth+1)
             });
         } else {
             var matches;
