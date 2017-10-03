@@ -795,6 +795,18 @@
             jsqueue.finished(data.PID);
         },
         TOOLS_SET_NAME_VALUE: function (data) {
+            //Quick HM Hack
+
+            if (data['stackname'] === 'CUSTOM_FILTER') {
+                if (data['value']['min'] === undefined || data['value']['min'] === null || data['value']['min'] === "") {
+                    data['value']['min'] = 0;
+                }
+
+                if (data['value']['min'] === undefined || data['value']['max'] === null || data['value']['max'] === "") {
+                    data['value']['max'] = 0;
+                }
+            }
+
             jsqueue.set_name_value(data.stackname, data.path,data.value);
             jsqueue.finished(data.PID);
         },

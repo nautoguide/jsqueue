@@ -1,5 +1,5 @@
 /**
- *  jsqueue-tools.js (c) 2014 richard@nautoguide.com
+ *  jsqueue-jquery.js (c) 2017 richard@nautoguide.com
  */
 
 (function ($) {

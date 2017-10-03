@@ -826,7 +826,7 @@ function jsqueue_charts() {
 // define the line
 
         var lineGen = d3.line()
-            .curve(d3.curveBasis)
+            .curve(d3.curveCardinal)
             .x(function(d,i) {
                 return x(i);
             })
