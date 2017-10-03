@@ -802,7 +802,7 @@
                     data['value']['min'] = 0;
                 }
 
-                if (data['value']['min'] === undefined || data['value']['max'] === null || data['value']['max'] === "") {
+                if (data['value']['max'] === undefined || data['value']['max'] === null || data['value']['max'] === "") {
                     data['value']['max'] = 0;
                 }
             }
