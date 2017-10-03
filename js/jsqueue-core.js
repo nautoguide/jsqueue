@@ -57,7 +57,7 @@ core.data = {
             var eval_res=eval(match[1]);
             ret_str = ret_str.replace("@" + js_match, eval_res);
         }
-        if(safe) {
+        if(safe && ret_str) {
             ret_str
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")

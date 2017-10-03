@@ -168,12 +168,37 @@ function jsqueue_charts() {
             .append("g")
             .attr("transform", "translate(" + data.chart.options.margin.left + "," + data.chart.options.margin.top + ")");
 
+        var floatCount = 0;
 
+        var previousNumbers = [];
+
+        dataset.map(function(d, i) {
+            if (previousNumbers.indexOf(d.col) === -1) {
+                previousNumbers.push(d.col);
+            }
+
+            if (isFloat(d.col)) {
+                floatCount++;
+            }
+        });
+
+        function isFloat(n) {
+            return n === +n && n !== (n|0);
+        }
+
+        function yAxisCall() {
+            if (floatCount > 0) {
+                return yAxis;
+            }
+            else {
+                return yAxis.ticks(previousNumbers.length, "d");
+            }
+        }
 
         var side=svg.append("g")
             .attr("class", "y axis")
-            .call(yAxis)
-            .attr("transform", "translate(-5)");;
+            .call(yAxisCall())
+            .attr("transform", "translate(-5)");
 
 
         side.append("text")
@@ -187,7 +212,7 @@ function jsqueue_charts() {
         var bottom=svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + (h+10) + ")")
-            .call(xAxis)
+            .call(xAxis);
 
         bottom.selectAll("text")
             .call(self.wrap, x.bandwidth());
@@ -801,7 +826,7 @@ function jsqueue_charts() {
 // define the line
 
         var lineGen = d3.line()
-            .curve(d3.curveBasis)
+            .curve(d3.curveCardinal)
             .x(function(d,i) {
                 return x(i);
             })
