@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "JSQueue",
   "scripts": {
-    "build": "nodejs scripts/minify.js",
-    "update": "nodejs scripts/update.js",
-    "docs": "nodejs scripts/docs.js"
+    "build": "node scripts/minify.js",
+    "update": "node scripts/update.js",
+    "docs": "node scripts/docs.js"
   },
   "devDependencies": {
     "node-minify": "1.2.0",

@@ -798,12 +798,31 @@
             //Quick HM Hack
 
             if (data['stackname'] === 'CUSTOM_FILTER') {
+                var val = 0;
+
+                if (data['datemode']) {
+                    var today = new Date();
+                    var day = today.getDate();
+                    var month = today.getMonth() + 1;
+                    var year = today.getFullYear();
+
+                    if (day < 10) {
+                        day = '0' + day;
+                    }
+
+                    if (month < 10) {
+                        month = '0' + month;
+                    }
+
+                    val = day + '/' + month + '/' + year;
+                }
+
                 if (data['value']['min'] === undefined || data['value']['min'] === null || data['value']['min'] === "") {
-                    data['value']['min'] = 0;
+                    data['value']['min'] = val;
                 }
 
                 if (data['value']['max'] === undefined || data['value']['max'] === null || data['value']['max'] === "") {
-                    data['value']['max'] = 0;
+                    data['value']['max'] = val;
                 }
             }
 
