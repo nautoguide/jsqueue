@@ -999,8 +999,6 @@
                     xhrFields = null;
                 }
 
-                console.log(xhrFields);
-
                 $.ajax({
                     type: 'POST',
                     url: ldata.uri,
