@@ -786,6 +786,10 @@
         },
 
         TOOLS_PUSH_NAME: function (data) {
+            if (data['parse']) {
+                data['data'] = core.data.uritodata(data['data']);
+            }
+
             jsqueue.push_name(data.stackname, data.data);
             jsqueue.finished(data.PID);
         },
@@ -858,10 +862,71 @@
 
         },
 
+        TOOLS_PARSE_BBOX: function(data) {
+            data = $.extend({
+                "stackname": "PARSED_BBOX",
+                "bbox": null
+            }, data);
+
+            if (data['bbox'] === null) {
+                console.error("You must provide a bbox. [ol --> PARSE_BBOX]");
+                jsqueue.finished(data.PID);
+            }
+
+            var bbox = data['bbox'].substr(4, data['bbox'].length - 2).replace(/ /g, ',');
+
+            if (data['pad']) {
+                bbox = bbox.split(',');
+
+                var str = "";
+
+                for (var i = 0; i < bbox.length; i++) {
+                    if (data['pad']['x'] === undefined) {
+                        if (i === 0 || i === 1) {
+                            str += (parseFloat(bbox[i]) - parseFloat(data['pad'])) + (i + 1 === bbox.length ? '' : ',');
+                        }
+                        else {
+                            str += (parseFloat(bbox[i]) + parseFloat(data['pad'])) + (i + 1 === bbox.length ? '' : ',');
+                        }
+                    }
+                    else {
+                        switch (i) {
+                            case 0: {
+                                str += (parseFloat(bbox[i]) - parseFloat(data['pad']['x'])) + ',';
+                                break;
+                            }
+
+                            case 1: {
+                                str += (parseFloat(bbox[i]) - parseFloat(data['pad']['y'])) + ',';
+                                break;
+                            }
+
+                            case 2: {
+                                str += (parseFloat(bbox[i]) + parseFloat(data['pad']['x'])) + ',';
+                                break;
+                            }
+
+                            case 3: {
+                                str += (parseFloat(bbox[i]) + parseFloat(data['pad']['y']));
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                bbox = str;
+            }
+
+            jsqueue.push_name(data['stackname'], bbox);
+
+            jsqueue.finished(data['PID']);
+        },
+
         TOOLS_REST_API: function (data) {
             var self = this;
             var senddata = {};
             var ldata=$.extend(true,{},data);
+
             if (!ldata.uri)
                 ldata.uri = self.options.uri;
 
@@ -883,7 +948,8 @@
 
 
             senddata = $.extend(true,{},ldata.json, senddata);
-            senddata = encodeURIComponent(JSON.stringify(senddata));
+
+            senddata = JSON.stringify(senddata);
 
             /**
              *  IE8/9 CORS support is broken so we can't use it.
@@ -897,6 +963,8 @@
                     processData: false,
                     traditional: false,
                     headers: data.headers || {},
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
                     success: function (rdata) {
                         if(!data.nostack) {
                             if (ldata.json && ldata.json.ignoredata) {
@@ -923,19 +991,28 @@
                     }
                 });
             } else {
+                var xhrFields = {
+                    withCredentials: true
+                };
+
+                if (data['credentials'] === "false") {
+                    xhrFields = null;
+                }
+
+                console.log(xhrFields);
+
                 $.ajax({
                     type: 'POST',
                     url: ldata.uri,
                     data: senddata,
                     async: true,
                     crossDomain: true,
-                    xhrFields: {
-                        withCredentials: true
-                    },
+                    xhrFields: xhrFields,
                     processData: false,
                     traditional: false,
                     headers: data.headers || {},
-
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
                     success: function (rdata) {
                         if(!data.nostack) {
                             if (ldata.json && ldata.json.ignoredata) {

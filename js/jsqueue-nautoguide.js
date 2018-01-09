@@ -69,7 +69,7 @@ var res;
         POPULATE_SYSTEM_VARIABLES: function() {
             //var stack = jsqueue.get_stack_name("TOKEN_DETAIL");
 
-            window.nautosdk = {"app": {"schema": res['_schema']}, "acl": res['data']};
+            window.nautosdk = {"app": {"schema": res['_schema'] || res['data']['_acl'][0]['schema'].replace("ng_", "")}, "acl": res['data']};
 
             jsqueue.set_reg("NAUTOGUIDE_LOADED", true);
         }
