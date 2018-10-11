@@ -110,7 +110,21 @@
              console.log(this);
              return;
              }*/
+
+
+
             var events = $(this).attr('data-events') || 'click run';
+            /**
+             *  In accessibility mode we set the default options
+             *  to their accessibility defaults
+             */
+            if(data.accessibility!==undefined) {
+                events="click keypress";
+                data.keys=[13,32];
+                if($(this).attr('tabindex')==undefined)
+                    $(this).attr('tabindex',"0")
+            }
+
             $(this).unbind(events);
             $(this).on(events, function (e) {
                 e.stopPropagation();

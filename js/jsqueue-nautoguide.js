@@ -10,6 +10,7 @@ var res;
 
     function jsNautoguide(element, options) {
         var self = this;
+        debugger;
         self.options = options;
         self.div = element;
 
@@ -25,6 +26,7 @@ var res;
         var url = window.location.protocol + "//" + window.location.hostname;
         var path = window.location.pathname;
 
+        var full_url = window.location.protocol + "//" + window.location.hostname;
         url += path.replace('app', 'api');
 
         $.ajax({
@@ -39,7 +41,7 @@ var res;
             success: function (result) {
                 res = result;
 
-                jsNautoguide.prototype.POPULATE_SYSTEM_VARIABLES();
+                jsNautoguide.prototype.POPULATE_SYSTEM_VARIABLES(full_url);
             },
             async: false
         });
@@ -66,10 +68,10 @@ var res;
     jsNautoguide.prototype = {
         constructor: jsNautoguide,
 
-        POPULATE_SYSTEM_VARIABLES: function() {
+        POPULATE_SYSTEM_VARIABLES: function(full_url) {
             //var stack = jsqueue.get_stack_name("TOKEN_DETAIL");
 
-            window.nautosdk = {"app": {"schema": res['_schema']}, "acl": res['data']};
+            window.nautosdk = {"app": {"schema": res['_schema'],"full_url":full_url}, "acl": res['data']};
 
             jsqueue.set_reg("NAUTOGUIDE_LOADED", true);
         }
